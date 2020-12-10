@@ -36,10 +36,16 @@ Tabs are bad, make sure we use spaces. I like 4 spaces as tab because it gives v
 #+end_src
 ** UI Configuration
 *** Font and faces
-Right now, im in love with FiraCode but im adding the nerd font patch on it so I can edit emojis as I want.
+Right now, im in love with FiraCode but im adding the nerd font patch on it so I can edit emojis as I want. However, i think it is important to have a variable pitch font to read text or such (as org mode for example.) So using the mixed-pitch package we can achieve that easily. We just need to define the variable-pitch font. Since not all fonts are available everywhere, I'm adding that font based on the OS. Default value is for Linux than I let the value change for Mac.
 #+begin_src emacs-lisp :tangle config.el
 (setq doom-font (font-spec :family "FiraCode Nerd Font" :size 16)
-      doom-unicode-font (font-spec :name "Noto Color Emoji" :size 20))
+      doom-unicode-font (font-spec :name "Noto Color Emoji" :size 20)
+      doom-variable-pitch-font (font-spec :family "Ubuntu" :size 16))
+
+; TODO: Choose a nice variable pitch font for Mac
+(if (eq system-type 'Darwin)
+    (setq doom-variable-pitch-font (font-spec :family "Times" :size 16)))
+(add-hook! 'text-mode-hook 'mixed-pitch-mode)
 #+end_src
 *** Line numbers
 The best way to navigate is to use the relative line numbers. Quick glance and ~35j~ to get down 35 lines without approximation our any mental calculation involved.
