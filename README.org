@@ -1,0 +1,29 @@
+#+TITLE: Doom Emacs configuration file
+#+AUTHOR: Patrick Grogan
+* Welcome
+This is my literate configuration for doom emacs. I'm choosing to use doom because it was an easy jump from vim to Emacs without thinking too much.
+* Global
+** Personal Information
+#+begin_src emacs-lisp :tangle config.el
+(setq user-full-name "Patrick Grogan"
+      user-mail-address "po.grogan@gmail.com")
+
+#+end_src
+* Config Utilities
+** Auto-tangle
+We are adding a hook to org mode that will make tangle this file each time it is saved. To do so, we are loooking if the org file saved is in the doom user private configuration folder. If so, we call make in the the folder to make sure everything is retangled.
+#+begin_src emacs-lisp :tangle config.el
+(defun pg/tangle-org-config ()
+    (interactive)
+    (when (string-equal default-directory  (expand-file-name doom-private-dir))
+      (message " Retangle config org files")
+      (shell-command "make")))
+
+;l(add-hook! 'org-mode-hook (lambda ()
+;l                            (add-hook 'after-save-hook #'pg/tangle-org-config-on-save)
+;l                            ))
+
+#+end_src
+* Core Packages
+* Development
+* Org mode
