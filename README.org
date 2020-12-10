@@ -107,6 +107,40 @@ I'm usually using virtualenvironment for all my development. It is nice to be ab
   (pyvenv-workon name))
 #+end_src
 * Development
+** Language Server
+*** lsp-mode
+We use LSP mode for almost everythnig close to IDE features. As an evil user, i need to use a different method than the normal ~lsp-keymap-prefix~ as i want to use ~<space>-l~ as my main key to enter lsp mode functions. We also want to enable which-key integration for LSP to help us with bindings we do not use that often.
+#+begin_src emacs-lisp :tangle config.el
+(defun pg/lsp-mode-setup ()
+  (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+  (lsp-headerline-breadcrumb-mode t))
+(after! lsp
+  (add-hook 'lsp-mode #'pg/lsp-mode-setup)
+  (add-hook 'lsp-mode #'lsp-enable-which-key-integration)
+  (evil-leader/set-key
+   "l" lsp-command-map))
+#+end_src
+*** lsp-ui
+lsp-ui gives enhancement over the normal lsp-mode information we get. Especially, it gives information in the frame which is better in my opinion.
+#+begin_src emacs-lisp :tangle config.el
+(after! lsp-ui
+  (add-hook 'lsp-mode #'lsp-ui-mode)
+  (add-hook 'lsp-ui #'lambda(
+                             lsp-ui-doc-mode t))
+  (setq lsp-ui-doc-position 'bottom))
+#+end_src
+** Languages
+*** Python
+For python, I make sure to use flycheck with python-flake8 as first linter.
+#+begin_src emacs-lisp :tangle config.el
+(defun pg/set-python-flycheck ()
+  (interactive)
+  (when (eq major-mode 'python-mode)
+    (setq flycheck-checker 'python-flake8))
+  (flycheck-reset-enabled-checker 'python-flake8))
+(after! flycheck
+  (add-hook! 'flycheck-mode-hook 'pg/set-python-flycheck))
+#+end_src
 * Org mode
 ** UI and look improvements
 In org mode, we do not need the line numbers and I pregfer a lot when we are using Bullets instead of stars to make the section delimiters.

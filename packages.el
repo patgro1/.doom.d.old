@@ -3,3 +3,5 @@
 (package! mixed-pitch)
 (package! ansi-color)
 (package! virtualenvwrapper)
+(package! treemacs)
+(package! lsp-treemacs)
