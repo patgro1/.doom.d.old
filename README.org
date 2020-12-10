@@ -73,6 +73,15 @@ We are adding a hook to org mode that will make tangle this file each time it is
 
 #+end_src
 * Core Packages
+* Custom Utility Functions
+** Display ansi colors
+In my development I sometimes need to open log containing ansi code. Instead of clearing it, I prefer display the colors so we can see irregularities more easily. This function enable that.
+#+begin_src emacs-lisp :tangle config.el
+(after! ansi-color
+  (defun pg/display-ansi-colors ()
+    (interactive)
+    (ansi-color-apply-on-region (point-min) (point-max))))
+#+end_src
 * Development
 * Org mode
 ** UI and look improvements
