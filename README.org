@@ -25,6 +25,15 @@ So with doom we need to specify the undo manager we want to use. As of right now
 #+begin_src emacs-lisp :tangle config.el
 (evil-set-undo-system 'undo-fu)
 #+end_src
+*** Whitespace Management
+Tabs are bad, make sure we use spaces. I like 4 spaces as tab because it gives visually cleaner code IMO. However, I get that deeply nested code can quickly get to a situation where we lose many character on the line due to this kind of indentation. It is something I always hesitate on. What is sure though is that I want to make sure there is no extra spaces on lines.
+#+begin_src emacs-lisp :tangle config.el
+(setq-default indent-tabs-mode nil
+              tab-width 4
+              standard-indent 4
+              tab-stop-list (number-sequence 4 120 4))
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+#+end_src
 ** UI Configuration
 *** Font and faces
 Right now, im in love with FiraCode but im adding the nerd font patch on it so I can edit emojis as I want.
