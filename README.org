@@ -1,13 +1,35 @@
 #+TITLE: Doom Emacs configuration file
 #+AUTHOR: Patrick Grogan
 * Welcome
-This is my literate configuration for doom emacs. I'm choosing to use doom because it was an easy jump from vim to Emacs without thinking too much.
+This is my literate configuration for doom emacs. I'm choosing to use doom because it was an easy jump from vim to Emacs without thinking too much. Here is a list by functionality of what needs to be present on the system for full experience.
+** Fonts
+- [[FiraCode Nerd Font]]
+- [[https://www.google.com/get/noto/help/emoji/][Noto Color Emoji Font]]
+* Requirements
+My config assumes some
 * Global
 ** Personal Information
 #+begin_src emacs-lisp :tangle config.el
 (setq user-full-name "Patrick Grogan"
       user-mail-address "po.grogan@gmail.com")
-
+#+end_src
+** Emacs behavior
+I really don't like the backup file managemnent from Emacs. I think our systems are stable enough to fully turn them off. However, I also totally know that if I completely turn them off, it'll come back and bite my ass later on so I'm settly on just changing the directory where the files are put in a hidden directory in my home folder.
+#+begin_src emacs-lisp :tangle config.el
+(setq backup-directory-alist '(("." . "~/.emacs_backup"))
+      make-backup-files t)
+#+end_src
+** UI Configuration
+*** Font and faces
+Right now, im in love with FiraCode but im adding the nerd font patch on it so I can edit emojis as I want.
+#+begin_src emacs-lisp :tangle config.el
+(setq doom-font (font-spec :family "FiraCode Nerd Font" :size 16)
+      doom-unicode-font (font-spec :name "Noto Color Emoji" :size 20))
+#+end_src
+*** Line numbers
+The best way to navigate is to use the relative line numbers. Quick glance and ~35j~ to get down 35 lines without approximation our any mental calculation involved.
+#+begin_src emacs-lisp :tangle config.el
+(setq display-line-numbers-type 'relative)
 #+end_src
 * Config Utilities
 ** Auto-tangle
