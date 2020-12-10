@@ -69,3 +69,16 @@ We are adding a hook to org mode that will make tangle this file each time it is
 * Core Packages
 * Development
 * Org mode
+** UI and look improvements
+In org mode, we do not need the line numbers and I pregfer a lot when we are using Bullets instead of stars to make the section delimiters.
+#+begin_src  emacs-lisp :tangle config.el
+(use-package! org-bullets
+  :after org
+  :hook (org-mode . org-bullets-mode)
+  :config
+  (setq org-bullets-bullet-list '("○" "☉" "◎" "◉" "○" "◌" "◎" "●" "◦" "◯")))
+(defun pg/nolinum()
+  (interactive)
+  (setq display-line-numbers nil))
+(add-hook 'org-mode-hook 'pg/nolinum)
+#+end_src
