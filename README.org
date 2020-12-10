@@ -71,6 +71,11 @@ We are adding a hook to org mode that will make tangle this file each time it is
 ;l                            ))
 
 #+end_src
+** Personal and private functions
+Here we check for a personal file inside the configuration folder. If it exists we load it. It can contain extra configuration for work related stuff and suchk
+#+begin_src emacs-lisp :tangle config.el
+(load (concat doom-private-dir "private.el") t)
+#+end_src
 * Core Packages
 ** Projectile
 Projectile is a package used to manage projects. We are using alien mode to fuzzy find accross the projects for files. My configuration also assumes that projects are all contained within the ~\~/workspace~ folder (eclipse world...)
