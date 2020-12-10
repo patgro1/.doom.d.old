@@ -66,13 +66,20 @@ We are adding a hook to org mode that will make tangle this file each time it is
     (when (string-equal default-directory  (expand-file-name doom-private-dir))
       (message " Retangle config org files")
       (shell-command "make")))
-
 ;l(add-hook! 'org-mode-hook (lambda ()
 ;l                            (add-hook 'after-save-hook #'pg/tangle-org-config-on-save)
 ;l                            ))
 
 #+end_src
 * Core Packages
+** Projectile
+Projectile is a package used to manage projects. We are using alien mode to fuzzy find accross the projects for files. My configuration also assumes that projects are all contained within the ~\~/workspace~ folder (eclipse world...)
+#+begin_src emacs-lisp :tangle config.el
+(after! projectile
+  (setq projectile-indexing-mode 'alien
+        projectile-project-search-path '("~/workspace")))
+#+end_src
+** Magit
 * Custom Utility Functions
 ** Display ansi colors
 In my development I sometimes need to open log containing ansi code. Instead of clearing it, I prefer display the colors so we can see irregularities more easily. This function enable that.
@@ -81,6 +88,18 @@ In my development I sometimes need to open log containing ansi code. Instead of 
   (defun pg/display-ansi-colors ()
     (interactive)
     (ansi-color-apply-on-region (point-min) (point-max))))
+#+end_src
+** Setup python virtual environment
+I'm usually using virtualenvironment for all my development. It is nice to be able to use them within emacs so LSP, jedi and such works with the environment instead of system Python. To do that, I am using the virtualenvwrapper package and the pyenv package coming with Doom. This config assumes that all virtualenvs are within the ~\~virtualenvs~ folder.
+#+begin_src emacs-lisp :tangle config.el
+(setenv "WORKON_HOME" "~/virtualenvs")
+(defun pg/setup-virtualenv (&optional name)
+  (interactive
+   (list
+    (completing-read "Work on: " (pyvenv-virtualenv-list)
+                     nil t nil 'pyenv-workon-history nil nil)))
+  (pyvenv-deactivate)
+  (pyvenv-workon name))
 #+end_src
 * Development
 * Org mode
