@@ -37,6 +37,11 @@ The best way to navigate is to use the relative line numbers. Quick glance and ~
 #+begin_src emacs-lisp :tangle config.el
 (setq display-line-numbers-type 'relative)
 #+end_src
+*** Theme
+This theme is the best IMO but I'm always open to change to something else when I'm getting tired of this one.
+#+begin_src emacs-lisp :tangle config.el
+(load-theme 'doom-dark+ t)
+#+end_src
 * Config Utilities
 ** Auto-tangle
 We are adding a hook to org mode that will make tangle this file each time it is saved. To do so, we are loooking if the org file saved is in the doom user private configuration folder. If so, we call make in the the folder to make sure everything is retangled.
