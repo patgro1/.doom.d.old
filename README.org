@@ -14,10 +14,16 @@ My config assumes some
       user-mail-address "po.grogan@gmail.com")
 #+end_src
 ** Emacs behavior
+*** Backups
 I really don't like the backup file managemnent from Emacs. I think our systems are stable enough to fully turn them off. However, I also totally know that if I completely turn them off, it'll come back and bite my ass later on so I'm settly on just changing the directory where the files are put in a hidden directory in my home folder.
 #+begin_src emacs-lisp :tangle config.el
 (setq backup-directory-alist '(("." . "~/.emacs_backup"))
       make-backup-files t)
+#+end_src
+*** Undo
+So with doom we need to specify the undo manager we want to use. As of right now, I'm using undo-fu just because I want to undo/redo single steps easily.
+#+begin_src emacs-lisp :tangle config.el
+(evil-set-undo-system 'undo-fu)
 #+end_src
 ** UI Configuration
 *** Font and faces
