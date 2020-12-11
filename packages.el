@@ -5,3 +5,5 @@
 (package! virtualenvwrapper)
 (package! treemacs)
 (package! lsp-treemacs)
+(package! company-jedi)
+(package! company-box)

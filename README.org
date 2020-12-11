@@ -129,6 +129,12 @@ lsp-ui gives enhancement over the normal lsp-mode information we get. Especially
                              lsp-ui-doc-mode t))
   (setq lsp-ui-doc-position 'bottom))
 #+end_src
+*** Company box
+This mode enables prettier company completion box with icons when possible.
+#+begin_src emacs-lisp :tangle config.el
+(use-package! company-box
+  :hook (company-mode . company-box-mode))
+#+end_src
 ** Languages
 *** Python
 For python, I make sure to use flycheck with python-flake8 as first linter.
@@ -140,6 +146,13 @@ For python, I make sure to use flycheck with python-flake8 as first linter.
   (flycheck-reset-enabled-checker 'python-flake8))
 (after! flycheck
   (add-hook! 'flycheck-mode-hook 'pg/set-python-flycheck))
+#+end_src
+Setting company mode for completion.
+#+begin_src emacs-lisp :tangle config.el
+(after! company-jedi
+  (add-to-list 'company-backends 'company-jedi)
+  (setq jedi:complete-on-dot t)
+  (add-hook! '(inferior-python-mode python-mode) #'jedi:setup))
 #+end_src
 * Org mode
 ** UI and look improvements
