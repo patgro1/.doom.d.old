@@ -114,11 +114,10 @@ We use LSP mode for almost everythnig close to IDE features. As an evil user, i 
 (defun pg/lsp-mode-setup ()
   (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
   (lsp-headerline-breadcrumb-mode t))
-(after! lsp
-  (add-hook 'lsp-mode #'pg/lsp-mode-setup)
-  (add-hook 'lsp-mode #'lsp-enable-which-key-integration)
-  (evil-leader/set-key
-   "l" lsp-command-map))
+
+(use-package! lsp-mode
+  :hook (lsp-mode . pg/lsp-mode-setup)
+  :config (lsp-enable-which-key-integration t))
 #+end_src
 *** lsp-ui
 lsp-ui gives enhancement over the normal lsp-mode information we get. Especially, it gives information in the frame which is better in my opinion.
