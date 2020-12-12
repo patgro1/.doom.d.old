@@ -135,6 +135,12 @@ This mode enables prettier company completion box with icons when possible.
   :hook (company-mode . company-box-mode))
 #+end_src
 ** Languages
+*** Makefile
+In our work, we use Makefiles that are sometimes call make_*. I want to make sure that these files are opened using gnu Make mode.
+#+begin_src emacs-lisp :tangle config.el
+(add-to-list 'auto-mode-alist '("make_\.\*" . makefile-mode))
+(add-to-list 'auto-mode-alist '("Makefile\.\*" . makefile-mode))
+#+end_src
 *** Python
 For python, I make sure to use flycheck with python-flake8 as first linter.
 #+begin_src emacs-lisp :tangle config.el
@@ -152,6 +158,11 @@ Setting company mode for completion.
   (add-to-list 'company-backends 'company-jedi)
   (setq jedi:complete-on-dot t)
   (add-hook! '(inferior-python-mode python-mode) #'jedi:setup))
+#+end_src
+*** TCL
+There is not much to add for tcl except that do files in my world are usually written in tcl so we will force emacs to use tcl mode when reading a do file.
+#+begin_src emacs-lisp :tangle config.el
+(add-to-list 'auto-mode-alist '("\\.do\\'" . tcl-mode))
 #+end_src
 *** Verilog
 Verilog mode is not really working like I would like to. Especially intentation around modules when you open a parenthesis at the end of the line, it indents at the parenthesis instead of a single indentation level. Until I'm done with me new systemverilog-mode, no choice but to still use this one though and adapt.
