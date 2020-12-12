@@ -7,3 +7,4 @@
 (package! lsp-treemacs)
 (package! company-jedi)
 (package! company-box)
+(package! yaml-mode)
