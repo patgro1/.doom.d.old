@@ -206,5 +206,6 @@ Org tempo is a packgae allowing the user to easily add code blocks into an org f
   (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
   (add-to-list 'org-structure-template-alist '("py" . "src python"))
+  (add-to-list 'org-structure-template-alist '("tcl" . "src tcl"))
   (add-to-list 'org-structure-template-alist '("sv" . "src verilog")))
 #+end_src
