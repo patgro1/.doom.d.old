@@ -45,7 +45,7 @@ Right now, im in love with FiraCode but im adding the nerd font patch on it so I
 (if (eq system-type 'darwin)
     (setq doom-variable-pitch-font (font-spec :family "Geneva" :size 16))
     (setq doom-variable-pitch-font (font-spec :family "Ubuntu" :size 16)))
-(add-hook! 'text-mode-hook 'mixed-pitch-mode)
+(add-hook! 'org-mode-hook 'mixed-pitch-mode)
 #+end_src
 *** Line numbers
 The best way to navigate is to use the relative line numbers. Quick glance and ~35j~ to get down 35 lines without approximation our any mental calculation involved.
@@ -177,16 +177,6 @@ Verilog mode is not really working like I would like to. Especially intentation 
                     :major-modes '(verilog-mode)
                     :priority -1))
   :hook (verilog-mode . pg/setup-verilog-lsp))
-#+end_src
-*** Yaml
-Yaml mode looks derived from text-mode, making it use a variable pitch by default because of the mixed-pitch mode. We need to turn off that mode when using yaml mode.
-#+begin_src emacs-lisp :tangle config.el
-(defun pg/setup-yaml-mode
-    (mixed-pitch-mode nil)
-    )
-(use-package! yaml-mode
-  :hook (yaml-mode . pg/setup-yaml-mode))
-
 #+end_src
 * Org mode
 ** UI and look improvements
