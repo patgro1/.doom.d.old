@@ -178,6 +178,12 @@ Verilog mode is not really working like I would like to. Especially intentation 
                     :priority -1))
   :hook (verilog-mode . pg/setup-verilog-lsp))
 #+end_src
+** Utilities
+*** Rainbow delimiter
+Rainbow delimiter is a package that will color same lever delimiter ~(), [], {}~ in one color and make sure the nested delimiter switch color. It is especially useful for lisp languages but I think it is super useful in all languages so ill turn it on for all prog-mode.
+#+begin_src emacs-lisp :tangle config.el
+(add-hook! prog-mode #'rainbow-delimiters-mode)
+#+end_src
 * Org mode
 ** UI and look improvements
 In org mode, we do not need the line numbers and I pregfer a lot when we are using Bullets instead of stars to make the section delimiters.
