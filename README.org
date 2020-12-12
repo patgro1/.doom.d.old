@@ -153,6 +153,31 @@ Setting company mode for completion.
   (setq jedi:complete-on-dot t)
   (add-hook! '(inferior-python-mode python-mode) #'jedi:setup))
 #+end_src
+*** Verilog
+Verilog mode is not really working like I would like to. Especially intentation around modules when you open a parenthesis at the end of the line, it indents at the parenthesis instead of a single indentation level. Until I'm done with me new systemverilog-mode, no choice but to still use this one though and adapt.
+#+begin_src emacs-lisp :tangle config.el
+(defun pg/setup-verilog-lsp ()
+  (lsp)
+  (flycheck-mode t)
+  (add-to-list 'lsp-language-id-configuration '(verilog-mode . "verilog")))
+(use-package! verilog-mode
+  :custom
+  (verilog-indent-level 4)
+  (verilog-indent-level-directive 4)
+  (verilog-indent-level-module 4)
+  (verilog-indent-level-behavioral 4)
+  (verilog-indent-level-declaration 4)
+  (verilog-case-indent 4)
+  (verilog-auto-newline nil)
+  :config
+  (rainbow-delimiters-mode t)
+  (require 'lsp)
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-stdio-connection '("svls"))
+                    :major-modes '(verilog-mode)
+                    :priority -1))
+  :hook (verilog-mode . pg/setup-verilog-lsp))
+#+end_src
 * Org mode
 ** UI and look improvements
 In org mode, we do not need the line numbers and I pregfer a lot when we are using Bullets instead of stars to make the section delimiters.
