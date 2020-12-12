@@ -198,3 +198,13 @@ In org mode, we do not need the line numbers and I pregfer a lot when we are usi
   (setq display-line-numbers nil))
 (add-hook 'org-mode-hook 'pg/nolinum)
 #+end_src
+** Structural templates
+Org tempo is a packgae allowing the user to easily add code blocks into an org file. Usually, you can add a code block by using ~<s <tab>~ and it will just add the code block. With this package, you can also create the language selection with an extra typing. For example, ~<el <tab>~ would create an elisp code block.
+#+begin_src emacs-lisp :tangle config.el
+(after! org
+  (require 'org-tempo)
+  (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+  (add-to-list 'org-structure-template-alist '("py" . "src python"))
+  (add-to-list 'org-structure-template-alist '("sv" . "src verilog")))
+#+end_src
