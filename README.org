@@ -209,6 +209,84 @@ In org mode, we do not need the line numbers and I pregfer a lot when we are usi
   (setq display-line-numbers nil))
 (add-hook 'org-mode-hook 'pg/nolinum)
 #+end_src
+**  Basic config
+This section contains basic configuration for my org mode flow and filing. It defines my workflow. For my tasks, all new tasks will be marked as TODOS. Using the GTD all tasks needs to be planned as NEXT once they are the next items I'm planning to do. Results for tasks are either DONE or CANCELED. For bug fix, the process the same but using the BUG and FIXING keywords. This is a first draft on what I want to achieve and I will probably change it a couple of times from now on before I find my ways.
+#+begin_src emacs-lisp :tangle config.el
+(setq pg/org-journal-file "~/org/journal.org"
+    pg/org-tasks-file "~/org/tasks.org"  )
+(defun pg/open-journal-file ()
+    (interactive)
+    (find-file pg/org-journal-file)
+)
+(defun pg/open-tasks-file ()
+    (interactive)
+    (find-file pg/org-tasks-file)
+)
+(map! :leader
+    :desc "Open journal file"
+    "f j" #'pg/open-journal-file
+    :desc "Open tasks file"
+    "f t" #'pg/open-tasks-file)
+(use-package! org
+  :config
+  (setq org-default-notes-file (list pg/org-journal-file
+                                     pg/org-tasks-file))
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "NEXT(n)" "STARTED(s)" "|" "CANCEL(c)" "DONE(d)")
+          (sequence "BUG(b)" "BUG_NEXT(bn)" "FIXING(f)" "|" "DONE(d)" "CANCEL(c)")))
+  (setq org-todo-keyword-faces
+        '(("TODO" . (:foreground "#2e6b3a" :weight bold))
+          ("NEXT" . (:foreground "#3C92B7"))
+          ("STARTED" . (:foreground "#E35DBF"))
+          ("CANCEL" . (:foreground "#b50607"))
+          ("DONE" . (:foreground "#f2d4d7"))
+          ("BUG" . (:background "#b50607" :foreground "#a0a0a0" :weight bold))
+          ("BUG_NEXT" . (:background "#b50607" :foreground "#3c92b7  " :weight bold))
+          ("FIXING" . (:background "#b50607" :foreground "#E35DBF"))))
+  (setq org-tag-alist
+        '((:startgroup)
+                                        ; Mutually exclusive tags
+          (:endgroup)
+          ("@home" . ?H)
+          ("@work" . ?W)
+          ("note" . ?n)
+          ("meetings")
+          ("idea" . ?i)))
+  (setq org-agenda-custom-commands
+        '(("d" "Dashboard"
+           ((agenda "" ((org-deadline-warning-days 7)))
+            (todo "STARTED|FIXING"
+                  ((org-agenda-overriding-header "Active")))
+            (todo "NEXT|BUG_NEXT"
+                  ((org-agenda-overriding-header "Next Tasks")))
+            (todo "BUG"
+                  ((org-agenda-overriding-header "Bugs")))
+            (todo "TODO"
+                  ((org-agenda-overriding-header "Tasks")))
+            ))
+          ("c" "Closed"
+           ((todo "DONE"
+                  ((org-agenda-overriding-header "Done taskls")))))
+          ))
+  (setq org-capture-templates
+        `(("t" "Tasks / Bugs")
+          ("tt" "Task" entry (file+olp pg/org-tasks-file "TODOS")
+           "* TODO %? :@work:\n %U\n %a\n %i" :empty-lines 1)
+          ("tb" "Bug" entry (file+olp pg/org-tasks-file "BUGS")
+           "* BUG %? :@work:\n %U\n %a\n %i" :empty-lines 1)
+          ("j" "Journal")
+          ("jj" "Journal Entry" entry (file+olp pg/org-journal-file "NOTES")
+           "\n* %T - Journal :journal:\n\n%?\n\n"
+           :empty-lines 1)
+          ("jm" "Meeting Note" entry (file+olp pg/org-journal-file "MEETINGS")
+           "\n* %T - Meeting :meetings:@work:\n\n With:%? \n\n Notes:\n\n"
+           :empty-lines 1)
+          ("ji" "Idea" entry (file+olp pg/org-journal-file "IDEAS")
+           "\n* %T - %? \n\n Details:\n\n"
+           :empty-lines 1)
+          )))
+#+end_src
+
 ** Structural templates
 Org tempo is a packgae allowing the user to easily add code blocks into an org file. Usually, you can add a code block by using ~<s <tab>~ and it will just add the code block. With this package, you can also create the language selection with an extra typing. For example, ~<el <tab>~ would create an elisp code block.
 #+begin_src emacs-lisp :tangle config.el
